@@ -1,10 +1,14 @@
 from flask import Flask,render_template,redirect,url_for,request,flash,session
 import mysql.connector
+import os
 from flask_wtf import FlaskForm
 from flask_mail import Mail,Message
 from wtforms import StringField, PasswordField, SubmitField, SelectField, BooleanField, IntegerField, DateField, DecimalField
 from wtforms.validators import InputRequired, DataRequired, Email, ValidationError, Length, NumberRange
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = 'Mann@123'
@@ -18,11 +22,11 @@ mail=Mail(app)
 
 #MYSQL configuration
 connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="1234",
-        database="dbms"
-    )
+    host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_NAME")
+)
 
 def update_availability():
     today = datetime.now().date()

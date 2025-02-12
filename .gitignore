@@ -1,0 +1,4 @@
+*.env
+flasks/__pycache__/
+flasks/venv/
+flasks/.DS_Store
