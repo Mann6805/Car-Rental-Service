@@ -1,5 +1,5 @@
 from flask import Flask,render_template,redirect,url_for,request,flash,session
-import psycopg2
+import mysql.connector
 import os
 from flask_wtf import FlaskForm
 from flask_mail import Mail,Message
@@ -21,13 +21,16 @@ app.config['MAIL_USE_TLS'] = True
 mail=Mail(app)
 
 #MYSQL configuration
-connection = psycopg2.connect(
+try:
+  connection = mysql.connector.connect(
     host=os.getenv("DB_HOST"),
     user=os.getenv("DB_USER"),
     password=os.getenv("DB_PASSWORD"),
     database=os.getenv("DB_NAME"),
     port=int(os.getenv("DB_PORT"))
-)
+  )
+except Exception as e:
+  print(e)
 
 def update_availability():
     today = datetime.now().date()
